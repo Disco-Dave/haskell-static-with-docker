@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "././Main.hs"
+      component: "postgres:exe:postgres-exe"
+
+    - path: "././Paths_postgres.hs"
+      component: "postgres:exe:postgres-exe"
