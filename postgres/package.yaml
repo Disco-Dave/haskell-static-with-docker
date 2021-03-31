@@ -35,6 +35,16 @@ executables:
       ld-options:
       - -static
       - -pthread
+      extra-libraries:
+      - xml2
+      - ssl
+      - crypto
+      - z
+      - edit
+      - m
+      - ldap_r
+      - lber
+      - sasl2
 
 flags:
   static:

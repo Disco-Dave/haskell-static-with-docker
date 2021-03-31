@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 8f7fb7801f09d9cccd5677f651b8b73911432b45cb93e50f5bba3c527378ce3a
+-- hash: 3b53b1951cb001537b269a084bbcb390980958823b9a05e226f1ae3b39ce77b9
 
 name:           postgres
 version:        0.1.0.0
@@ -39,5 +39,15 @@ executable postgres-exe
       base >=4.7 && <5
     , postgresql-simple
   if flag(static)
+    extra-libraries:
+        xml2
+        ssl
+        crypto
+        z
+        edit
+        m
+        ldap_r
+        lber
+        sasl2
     ld-options: -static -pthread
   default-language: Haskell2010

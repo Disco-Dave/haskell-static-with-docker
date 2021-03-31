@@ -9,6 +9,11 @@ docker build -t "$name-build" . \
         zlib-dev \
         zlib-static \
         postgresql-dev \
+        libxml2-dev \
+        openssl-libs-static \
+        libedit-static \
+        openldap-dev \
+        cyrus-sasl-static \
     "
 
 mkdir -p ./bin

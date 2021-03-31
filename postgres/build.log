@@ -1,0 +1,409 @@
+Sending build context to Docker daemon  26.49MB
+Step 1/11 : FROM alpine:3.13
+ ---> 28f6e2705743
+Step 2/11 : RUN echo "Installing system dependencies for ghcup, ghc, and stack" &&    apk --no-cache add         bash         binutils-gold         curl         g++         gcc         gmp-dev         libffi-dev         make         ncurses-dev         perl         shadow         tar         xz
+ ---> Using cache
+ ---> 5d73b252e3eb
+Step 3/11 : ARG GHCUP_VERSION=0.1.14
+ ---> Using cache
+ ---> 3641f0e90d03
+Step 4/11 : ARG GHCUP_SHA256SUM=e9b314d248f4d4604ce64cee1be7161c77c8940efd11986c9205779ec3b598dd
+ ---> Using cache
+ ---> bbec99d4cc76
+Step 5/11 : RUN echo "Downloading and installing ghcup $GHCUP_VERSION" &&    curl "https://downloads.haskell.org/~ghcup/$GHCUP_VERSION/x86_64-linux-ghcup-$GHCUP_VERSION" -o ghcup &&    if ! echo "$GHCUP_SHA256SUM  ghcup" | sha256sum -c -; then         echo "ghcup $GHCUP_VERSION checksum failed" >&2 &&        exit 1;    fi;     mv ./ghcup /usr/bin/ghcup &&    chmod +x /usr/bin/ghcup
+ ---> Using cache
+ ---> da889b2030a4
+Step 6/11 : ENV PATH="/.ghcup/bin:$PATH"
+ ---> Using cache
+ ---> 9af23e95f4c0
+Step 7/11 : ENV GHCUP_INSTALL_BASE_PREFIX="/"
+ ---> Using cache
+ ---> 092d0f3bf3cd
+Step 8/11 : ARG GHC_VERSION=8.10.4
+ ---> Using cache
+ ---> a002ec9664a6
+Step 9/11 : RUN echo "Downloading and installing ghc $GHC_VERSION" &&    ghcup install ghc --set $GHC_VERSION
+ ---> Using cache
+ ---> 39c9af9507c4
+Step 10/11 : ARG BUILD_DEPS=""
+ ---> Using cache
+ ---> 523fa0427191
+Step 11/11 : RUN if [ ! -z "$BUILD_DEPS" ]; then         echo "Installing additional build dependencies for project" &&        apk --no-cache add $BUILD_DEPS ;     fi
+ ---> Using cache
+ ---> 308c4558615e
+Successfully built 308c4558615e
+Successfully tagged postgres-build:latest
+Building all executables for `postgres' once. After a successful build of all of them, only specified executables will be rebuilt.
+postgres> configure (exe)
+Configuring postgres-0.1.0.0...
+postgres> build (exe)
+Preprocessing executable 'postgres-exe' for postgres-0.1.0.0..
+Building executable 'postgres-exe' for postgres-0.1.0.0..
+Linking .stack-work/dist/x86_64-linux-dk85fd5bb041a5ee33fd81f56766a490f2/Cabal-3.2.1.0/build/postgres-exe/postgres-exe ...
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `parseServiceFile':
+fe-connect.c:(.text+0xbee): undefined reference to `pg_strncasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xda8): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xdbf): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xddb): undefined reference to `ldap_init'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xdff): undefined reference to `ldap_set_option'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xe13): undefined reference to `ldap_simple_bind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xe41): undefined reference to `ldap_result'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xe65): undefined reference to `ldap_msgfree'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xe7e): undefined reference to `ldap_set_option'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xeb4): undefined reference to `ldap_search_st'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xed1): undefined reference to `ldap_msgfree'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xed9): undefined reference to `ldap_err2string'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0xef7): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x117f): undefined reference to `ldap_msgfree'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x118f): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x11a4): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x11b6): undefined reference to `ldap_count_entries'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x11ec): undefined reference to `ldap_msgfree'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x11f4): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1232): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1254): undefined reference to `ldap_first_entry'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1270): undefined reference to `ldap_get_values_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1286): undefined reference to `ldap_msgfree'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x135d): undefined reference to `ldap_value_free_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1365): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x141b): undefined reference to `ldap_value_free_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1423): undefined reference to `ldap_unbind'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `internal_cancel':
+fe-connect.c:(.text+0x183e): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x189a): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `default_threadlock':
+fe-connect.c:(.text+0x1914): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `sslVerifyProtocolVersion':
+fe-connect.c:(.text+0x1950): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1963): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1976): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1989): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `getHostaddr.constprop.0':
+fe-connect.c:(.text+0x19db): undefined reference to `pg_inet_net_ntop'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1a0b): undefined reference to `pg_inet_net_ntop'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `connectFailureMessage':
+fe-connect.c:(.text+0x1ad0): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1b61): undefined reference to `pg_getnameinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1b76): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x1bb1): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `closePGconn':
+fe-connect.c:(.text+0x2037): undefined reference to `pg_freeaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `PQconnectPoll':
+fe-connect.c:(.text+0x255c): undefined reference to `pg_set_noblock'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x26c6): undefined reference to `pg_freeaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x2745): undefined reference to `pg_freeaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x27e5): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x2f50): undefined reference to `pg_getaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x2fd7): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x2ffe): undefined reference to `pg_getaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3053): undefined reference to `pg_getaddrinfo_all'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3119): undefined reference to `pqGetpwuid'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3459): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x34b9): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3660): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x36ed): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3823): undefined reference to `getpeereid'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3850): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3a39): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3ab4): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3af4): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x3b8b): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o):fe-connect.c:(.text+0x3c50): more undefined references to `pg_strerror_r' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `connectDBStart':
+fe-connect.c:(.text+0x4119): undefined reference to `pg_link_canary_is_frontend'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `PQsetClientEncoding':
+fe-connect.c:(.text+0x496d): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x49f8): undefined reference to `pg_get_encoding_from_locale'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x49ff): undefined reference to `pg_encoding_to_char'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `pqGetHomeDirectory':
+fe-connect.c:(.text+0x4b76): undefined reference to `pqGetpwuid'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `parseServiceInfo':
+fe-connect.c:(.text+0x4cda): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x4d71): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `connectOptions2':
+fe-connect.c:(.text+0x62cb): undefined reference to `pg_strip_crlf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x66aa): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x68e2): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x6902): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x6919): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x6928): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x69d7): undefined reference to `pg_get_encoding_from_locale'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-connect.c:(.text+0x69de): undefined reference to `pg_encoding_to_char'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-connect.o): in function `defaultNoticeProcessor':
+fe-connect.c:(.text+0x97): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-exec.o): in function `PQescapeStringInternal':
+fe-exec.c:(.text+0x94f): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-exec.o): in function `PQescapeInternal':
+fe-exec.c:(.text+0xbc3): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-exec.c:(.text+0xca8): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-exec.o): in function `pqInternalNotice':
+fe-exec.c:(.text+0x174f): undefined reference to `pg_vsnprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-exec.c:(.text+0x17f1): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-exec.o): in function `pqSaveParameterStatus':
+fe-exec.c:(.text+0x1cdf): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-exec.c:(.text+0x1e44): undefined reference to `pg_char_to_encoding'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-exec.o): in function `PQfnumber':
+fe-exec.c:(.text+0x3847): undefined reference to `pg_tolower'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-exec.c:(.text+0x3895): undefined reference to `pg_tolower'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-lobj.o): in function `lo_import_internal':
+fe-lobj.c:(.text+0x10bc): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-lobj.c:(.text+0x10fd): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-lobj.o): in function `lo_export':
+fe-lobj.c:(.text+0x153f): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-lobj.c:(.text+0x15d5): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `pqGets_internal':
+fe-misc.c:(.text+0x86): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `pqSocketCheck':
+fe-misc.c:(.text+0x21b): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `pqGetc':
+fe-misc.c:(.text+0x2c0): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `pqGetnchar':
+fe-misc.c:(.text+0x37c): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-misc.c:(.text+0x3b9): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `pqSkipnchar':
+fe-misc.c:(.text+0x430): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-misc.c:(.text+0x480): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o):fe-misc.c:(.text+0x57f): more undefined references to `pg_fprintf' follow
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `PQenv2encoding':
+fe-misc.c:(.text+0x126c): undefined reference to `pg_char_to_encoding'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `PQmblen':
+fe-misc.c:(.text+0x1229): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-misc.o): in function `PQdsplen':
+fe-misc.c:(.text+0x1239): undefined reference to `pg_encoding_dsplen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-protocol2.o): in function `pqSetenvPoll':
+fe-protocol2.c:(.text+0x950): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol2.c:(.text+0x967): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol2.c:(.text+0xa99): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol2.c:(.text+0xabd): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol2.c:(.text+0xc30): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol2.c:(.text+0xc68): undefined reference to `pg_sprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-protocol3.o): in function `build_startup_packet':
+fe-protocol3.c:(.text+0x59c): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-protocol3.o): in function `pqBuildErrorMessage3':
+fe-protocol3.c:(.text+0x7f1): undefined reference to `pg_encoding_max_length'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol3.c:(.text+0x850): undefined reference to `pg_encoding_dsplen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol3.c:(.text+0x868): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol3.c:(.text+0xe83): undefined reference to `pg_encoding_dsplen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-protocol3.c:(.text+0xe9f): undefined reference to `pg_encoding_mblen'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(pqexpbuffer.o): in function `printfPQExpBuffer':
+pqexpbuffer.c:(.text+0x2dd): undefined reference to `pg_vsnprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(pqexpbuffer.o): in function `appendPQExpBuffer':
+pqexpbuffer.c:(.text+0x465): undefined reference to `pg_vsnprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `SSLerrmessage':
+fe-secure-openssl.c:(.text+0x3a): undefined reference to `ERR_reason_error_string'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x72): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x9d): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `ssl_protocol_version_to_openssl':
+fe-secure-openssl.c:(.text+0xcf): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xeb): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x107): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x123): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `initialize_SSL':
+fe-secure-openssl.c:(.text+0x190): undefined reference to `TLS_method'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x198): undefined reference to `SSL_CTX_new'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1c1): undefined reference to `SSL_CTX_set_default_passwd_cb'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1cc): undefined reference to `SSL_CTX_set_default_passwd_cb_userdata'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1d9): undefined reference to `SSL_CTX_set_options'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x217): undefined reference to `SSL_CTX_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x283): undefined reference to `SSL_new'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x2a0): undefined reference to `SSL_set_ex_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x2c4): undefined reference to `BIO_new'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x2db): undefined reference to `BIO_set_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x2ed): undefined reference to `SSL_set_bio'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x2ff): undefined reference to `BIO_int_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x30e): undefined reference to `SSL_CTX_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x355): undefined reference to `SSL_clear_options'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x3ec): undefined reference to `ENGINE_by_id'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x404): undefined reference to `ENGINE_init'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x41f): undefined reference to `ENGINE_load_private_key'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x437): undefined reference to `SSL_use_PrivateKey'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x4d7): undefined reference to `SSL_CTX_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x4e5): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x527): undefined reference to `SSL_CTX_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x629): undefined reference to `SSL_check_private_key'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x637): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x6bd): undefined reference to `SSL_set_verify'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x6ef): undefined reference to `SSL_CTX_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x6fd): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x751): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x789): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x7c1): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x80c): undefined reference to `SSL_use_PrivateKey_file'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x81a): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x839): undefined reference to `SSL_use_PrivateKey_file'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x869): undefined reference to `BIO_s_socket'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x871): undefined reference to `BIO_get_new_index'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x888): undefined reference to `BIO_meth_new'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x8a7): undefined reference to `BIO_meth_set_write'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x8c2): undefined reference to `BIO_meth_set_read'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x8d2): undefined reference to `BIO_meth_get_gets'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x8e1): undefined reference to `BIO_meth_set_gets'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x8f1): undefined reference to `BIO_meth_get_puts'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x900): undefined reference to `BIO_meth_set_puts'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x910): undefined reference to `BIO_meth_get_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x91f): undefined reference to `BIO_meth_set_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x92b): undefined reference to `BIO_meth_get_create'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x93a): undefined reference to `BIO_meth_set_create'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x946): undefined reference to `BIO_meth_get_destroy'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x955): undefined reference to `BIO_meth_set_destroy'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x961): undefined reference to `BIO_meth_get_callback_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x970): undefined reference to `BIO_meth_set_callback_ctrl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x998): undefined reference to `BIO_meth_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x9c4): undefined reference to `ERR_put_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x9c9): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x9f7): undefined reference to `SSL_CTX_use_certificate_chain_file'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xa11): undefined reference to `SSL_set_options'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xa46): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xa69): undefined reference to `SSL_CTX_load_verify_locations'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xa80): undefined reference to `SSL_CTX_get_cert_store'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xaaf): undefined reference to `ERR_clear_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xae1): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xaf8): undefined reference to `X509_STORE_load_locations'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xb0a): undefined reference to `X509_STORE_set_flags'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xb2d): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xbb3): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xbfc): undefined reference to `ENGINE_finish'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xc0e): undefined reference to `ENGINE_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xc2b): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xc68): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xca8): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xced): undefined reference to `SSL_CTX_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xd16): undefined reference to `SSL_CTX_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xd20): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xda2): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xdce): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `my_sock_read':
+fe-secure-openssl.c:(.text+0xe4d): undefined reference to `BIO_get_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xe6b): undefined reference to `BIO_clear_flags'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xe9a): undefined reference to `BIO_set_flags'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `my_sock_write':
+fe-secure-openssl.c:(.text+0xebd): undefined reference to `BIO_get_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xedb): undefined reference to `BIO_clear_flags'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xf0a): undefined reference to `BIO_set_flags'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_read':
+fe-secure-openssl.c:(.text+0xf75): undefined reference to `ERR_clear_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xf86): undefined reference to `SSL_read'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xf98): undefined reference to `SSL_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0xfe6): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x10c3): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_read_pending':
+fe-secure-openssl.c:(.text+0x11cc): undefined reference to `SSL_pending'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_write':
+fe-secure-openssl.c:(.text+0x1219): undefined reference to `ERR_clear_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x122b): undefined reference to `SSL_write'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x123d): undefined reference to `SSL_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1281): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1334): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_get_peer_certificate_hash':
+fe-secure-openssl.c:(.text+0x147d): undefined reference to `X509_get_signature_nid'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x148b): undefined reference to `OBJ_find_sigid_algs'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x14ae): undefined reference to `OBJ_nid2sn'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x14b6): undefined reference to `EVP_get_digestbyname'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x14d7): undefined reference to `X509_digest'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1571): undefined reference to `EVP_sha256'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x15c8): undefined reference to `OBJ_nid2sn'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_verify_peer_name_matches_certificate_guts':
+fe-secure-openssl.c:(.text+0x164d): undefined reference to `X509_get_ext_d2i'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1661): undefined reference to `OPENSSL_sk_num'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1694): undefined reference to `OPENSSL_sk_value'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x16b4): undefined reference to `ASN1_STRING_get0_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x16c1): undefined reference to `ASN1_STRING_length'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x16fd): undefined reference to `GENERAL_NAME_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1705): undefined reference to `OPENSSL_sk_pop_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1759): undefined reference to `X509_get_subject_name'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1773): undefined reference to `X509_NAME_get_index_by_NID'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1785): undefined reference to `X509_NAME_get_entry'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x178d): undefined reference to `X509_NAME_ENTRY_get_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x17a1): undefined reference to `ASN1_STRING_get0_data'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x17ac): undefined reference to `ASN1_STRING_length'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x17eb): undefined reference to `GENERAL_NAME_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x17f6): undefined reference to `OPENSSL_sk_pop_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_init':
+fe-secure-openssl.c:(.text+0x18b8): undefined reference to `OPENSSL_init_ssl'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_close':
+fe-secure-openssl.c:(.text+0x18e1): undefined reference to `SSL_shutdown'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x18ed): undefined reference to `SSL_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1910): undefined reference to `X509_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x192c): undefined reference to `ENGINE_finish'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1938): undefined reference to `ENGINE_free'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `pgtls_open_client':
+fe-secure-openssl.c:(.text+0x1984): undefined reference to `ERR_clear_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1990): undefined reference to `SSL_connect'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x19a2): undefined reference to `SSL_get_peer_certificate'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1a23): undefined reference to `SSL_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1a2b): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1aa9): undefined reference to `ERR_get_error'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1bf8): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `PQsslAttribute':
+fe-secure-openssl.c:(.text+0x1d8c): undefined reference to `SSL_get_current_cipher'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1d99): undefined reference to `SSL_CIPHER_get_bits'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1db7): undefined reference to `pg_snprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1dec): undefined reference to `SSL_get_current_cipher'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1e14): undefined reference to `SSL_get_current_compression'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `PQdefaultSSLKeyPassHook_OpenSSL':
+fe-secure-openssl.c:(.text+0x1eb4): undefined reference to `pg_fprintf'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-openssl.o): in function `PQsslAttribute':
+fe-secure-openssl.c:(.text+0x1de0): undefined reference to `SSL_get_version'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-openssl.c:(.text+0x1e08): undefined reference to `SSL_CIPHER_get_name'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth-scram.o): in function `build_client_final_message':
+fe-auth-scram.c:(.text+0x196): undefined reference to `scram_SaltedPassword'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x1a6): undefined reference to `scram_ClientKey'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x1c3): undefined reference to `scram_H'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x1d8): undefined reference to `scram_HMAC_init'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x1f9): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x20d): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x22f): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x243): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x259): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x26c): undefined reference to `scram_HMAC_final'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x2a4): undefined reference to `pg_b64_enc_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x2d4): undefined reference to `pg_b64_encode'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x437): undefined reference to `pg_b64_enc_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x466): undefined reference to `pg_b64_encode'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth-scram.o): in function `pg_fe_scram_init':
+fe-auth-scram.c:(.text+0x5c7): undefined reference to `pg_saslprep'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth-scram.o): in function `pg_fe_scram_exchange':
+fe-auth-scram.c:(.text+0x775): undefined reference to `pg_strong_random'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x787): undefined reference to `pg_b64_enc_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x7b7): undefined reference to `pg_b64_encode'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0x9e9): undefined reference to `pg_b64_dec_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xa36): undefined reference to `pg_b64_decode'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xba0): undefined reference to `pg_b64_dec_len'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xbe5): undefined reference to `pg_b64_decode'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xc58): undefined reference to `scram_ServerKey'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xc68): undefined reference to `scram_HMAC_init'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xc82): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xc96): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xcb0): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xcc4): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xcde): undefined reference to `scram_HMAC_update'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xcee): undefined reference to `scram_HMAC_final'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth-scram.o): in function `pg_fe_scram_build_secret':
+fe-auth-scram.c:(.text+0xf90): undefined reference to `pg_saslprep'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xfaf): undefined reference to `pg_strong_random'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth-scram.c:(.text+0xfc8): undefined reference to `scram_build_secret'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure-common.o): in function `pq_verify_peer_name_matches_certificate_name':
+fe-secure-common.c:(.text+0x10f): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-secure-common.c:(.text+0x175): undefined reference to `pg_strcasecmp'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /home/disco/.local/share/stack/snapshots/x86_64-linux-dk85fd5bb041a5ee33fd81f56766a490f2/f1455babd46894d3baa1fdf1327c96fc4d6a83ab654e4e14f3a96a2e10bd2dc9/8.10.4/lib/x86_64-linux-ghc-8.10.4/postgresql-libpq-0.9.4.3-F6rtdMTHYxA5qmRvZ3sEJU/libHSpostgresql-libpq-0.9.4.3-F6rtdMTHYxA5qmRvZ3sEJU.a(LibPQ.o): in function `postgresqlzmlibpqzm0zi9zi4zi3zmF6rtdMTHYxA5qmRvZZ3sEJU_DatabaseziPostgreSQLziLibPQ_zdwclientEncoding_info':
+(.text+0x1e44b): undefined reference to `pg_encoding_to_char'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure.o): in function `pqsecure_raw_read':
+fe-secure.c:(.text+0x111): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-secure.o): in function `pqsecure_raw_write':
+fe-secure.c:(.text+0x4e9): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth.o): in function `pg_fe_sendauth':
+fe-auth.c:(.text+0x59e): undefined reference to `pg_md5_encrypt'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth.c:(.text+0x5bb): undefined reference to `pg_md5_encrypt'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth.o): in function `pg_fe_getauthname':
+fe-auth.c:(.text+0x8ff): undefined reference to `pqGetpwuid'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: fe-auth.c:(.text+0x974): undefined reference to `pg_strerror_r'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth.o): in function `PQencryptPassword':
+fe-auth.c:(.text+0xa02): undefined reference to `pg_md5_encrypt'
+/usr/lib/gcc/x86_64-alpine-linux-musl/10.2.1/../../../../x86_64-alpine-linux-musl/bin/ld: /usr/lib/libpq.a(fe-auth.o): in function `PQencryptPasswordConn':
+fe-auth.c:(.text+0xab9): undefined reference to `pg_md5_encrypt'
+collect2: error: ld returned 1 exit status
+`cc' failed in phase `Linker'. (Exit code: 1)
+
+--  While building package postgres-0.1.0.0 (scroll up to its section to see the error) using:
+      /home/disco/.local/share/stack/setup-exe-cache/x86_64-linux-dk85fd5bb041a5ee33fd81f56766a490f2/Cabal-simple_mPHDZzAJ_3.2.1.0_ghc-8.10.4 --builddir=.stack-work/dist/x86_64-linux-dk85fd5bb041a5ee33fd81f56766a490f2/Cabal-3.2.1.0 build exe:postgres-exe --ghc-options ""
+    Process exited with code: ExitFailure 1
